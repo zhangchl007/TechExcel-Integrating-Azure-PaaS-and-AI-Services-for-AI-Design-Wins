@@ -14,8 +14,9 @@ public class DatabaseService : IDatabaseService
     /// <summary>
     /// Get all hotels from the database.
     /// </summary>
-     [KernelFunction]
-     [Description("Get all hotels.")]
+     //[KernelFunction]
+     //[Description("Get all hotels.")]
+     [KernelFunction("get_hotels")]
      public async Task<IEnumerable<Hotel>> GetHotels()
         {
             var sql = "SELECT HotelID, HotelName, City, Country FROM dbo.Hotel";
