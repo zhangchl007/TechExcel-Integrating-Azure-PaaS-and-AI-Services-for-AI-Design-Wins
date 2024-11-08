@@ -14,9 +14,9 @@ public class DatabaseService : IDatabaseService
     /// <summary>
     /// Get all hotels from the database.
     /// </summary>
-     //[KernelFunction]
-     //[Description("Get all hotels.")]
-     [KernelFunction("get_hotels")]
+     [KernelFunction]
+     [Description("Get all hotels.")]
+     //[KernelFunction("get_hotels")]
      public async Task<IEnumerable<Hotel>> GetHotels()
         {
             var sql = "SELECT HotelID, HotelName, City, Country FROM dbo.Hotel";
@@ -24,6 +24,10 @@ public class DatabaseService : IDatabaseService
                 connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
             );
             conn.Open();
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                throw new Exception("Connection to the database could not be established.");
+            }
             using var cmd = new SqlCommand(sql, conn);
             using var reader = await cmd.ExecuteReaderAsync();
             var hotels = new List<Hotel>();
