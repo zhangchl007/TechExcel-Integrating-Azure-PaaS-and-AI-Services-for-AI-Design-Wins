@@ -40,18 +40,24 @@ def main():
     )
 
     # Display the list of hotels as a drop-down list
+    # Display the list of hotels as a drop-down list
     hotels_json = get_hotels().json()
     # Reshape hotels to an object with hotelID and hotelName
     hotels = [{"id": hotel["hotelID"], "name": hotel["hotelName"]} for hotel in hotels_json]
-    
+
     selected_hotel = st.selectbox("Hotel:", hotels, format_func=lambda x: x["name"])
 
     # Display the list of bookings for the selected hotel as a table
     if selected_hotel:
         hotel_id = selected_hotel["id"]
-        bookings = get_hotel_bookings(hotel_id).json()
-        st.write("### Bookings")
-        st.table(bookings)
+        response = get_hotel_bookings(hotel_id)
+        try:
+            bookings = response.json()
+            st.write("### Bookings")
+            st.table(bookings)
+        except requests.exceptions.JSONDecodeError:
+            st.error("Failed to decode JSON response from the API.")
+            print(response.text)  # For debugging purposes
 
     st.write(
         """
@@ -61,7 +67,6 @@ def main():
         Then select the "Submit" button to call the Chat endpoint.
         """
     )
-
     question = st.text_input("Question:", key="question")
     if st.button("Submit"):
         with st.spinner("Calling Chat endpoint..."):
