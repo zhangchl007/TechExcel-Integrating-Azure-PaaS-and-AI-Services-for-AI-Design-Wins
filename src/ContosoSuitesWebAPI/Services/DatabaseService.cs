@@ -23,6 +23,9 @@ public class DatabaseService : IDatabaseService
             using var conn = new SqlConnection(
                 connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
             );
+
+            Console.WriteLine("Connection string: " + conn.ConnectionString);  // Debugging
+
             conn.Open();
             if (conn.State != System.Data.ConnectionState.Open)
             {
