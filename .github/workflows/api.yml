@@ -52,7 +52,7 @@ jobs:
       run: |
         echo "$USER_SECRETS" > $appPath/input.json
         cd $appPath
-        cat $appPath/input.json | dotnet user-secrets set
+        cat input.json | dotnet user-secrets set
       shell: bash
       env:
           USER_SECRETS: ${{ secrets.USER_SECRETS }}
