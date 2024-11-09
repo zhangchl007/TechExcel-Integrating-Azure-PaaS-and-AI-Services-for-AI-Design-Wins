@@ -1,5 +1,6 @@
 ﻿using ContosoSuitesWebAPI.Entities;
 using Microsoft.Azure.Cosmos;
+using System.ComponentModel;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Embeddings;
 
@@ -22,6 +23,8 @@ namespace ContosoSuitesWebAPI.Services
         /// Translate a text string into a vector embedding.
         /// This uses the embedding deployment name in your configuration, or defaults to text-embedding-ada-002.
         /// </summary>
+        [KernelFunction]
+        [Description("Get embeddings for a text string.")]
         public async Task<float[]> GetEmbeddings(string text)
         {
             //var embeddingClient = _client.GetEmbeddingClient(_embeddingDeploymentName);
@@ -52,6 +55,8 @@ namespace ContosoSuitesWebAPI.Services
         ///// Perform a vector search query against Cosmos DB.
         ///// This requires that you have already performed vectorization on your input text using the GetEmbeddings() method.
         ///// </summary>
+        [KernelFunction]
+        [Description("Execute a vector search query against Cosmos DB.")]
         public async Task<List<VectorSearchResult>> ExecuteVectorSearch(float[] queryVector, int max_results = 0, double minimum_similarity_score = 0.8)
         {
             var db = _cosmosClient.GetDatabase(configuration.GetValue<string>("CosmosDB:DatabaseName") ?? "ContosoSuites");
