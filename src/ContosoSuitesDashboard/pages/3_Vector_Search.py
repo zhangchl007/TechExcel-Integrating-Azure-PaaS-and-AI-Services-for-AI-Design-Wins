@@ -6,14 +6,14 @@ st.set_page_config(layout="wide")
 def handle_query_vectorization(query):
     """Vectorize the query using the Vectorize endpoint."""
     api_endpoint = st.secrets["api"]["endpoint"]
-    response = requests.get(f"{api_endpoint}/Vectorize", params={"text": query}, timeout=10, verify=False)
+    response = requests.get(f"{api_endpoint}/Vectorize", params={"text": query}, timeout=20, verify=False)
     return response.text
 
 def handle_vector_search(query_vector, max_results=5, minimum_similarity_score=0.8):
     """Perform a vector search using the VectorSearch endpoint."""
     api_endpoint = st.secrets["api"]["endpoint"]
     headers = {"Content-Type": "application/json"}
-    response = requests.post(f"{api_endpoint}/VectorSearch", data=query_vector, params={"max_results": max_results, "minimum_similarity_score": minimum_similarity_score}, headers=headers, timeout=10, verify=False)
+    response = requests.post(f"{api_endpoint}/VectorSearch", data=query_vector, params={"max_results": max_results, "minimum_similarity_score": minimum_similarity_score}, headers=headers, timeout=20, verify=False)
     return response
 
 def main():
@@ -50,16 +50,24 @@ def main():
                 # Vectorize the query text.
                 # Exercise 3 Task 3 TODO #4: Get the vectorized query text by calling handle_query_vectorization.
                 query_vector = handle_query_vectorization(query)
+                # Convert max_results to an integer.
+                max_results = int(max_results)
                 # Perform the vector search.
                 # Exercise 3 Task 3 TODO #5: Get the vector search results by calling handle_vector_search.
                 vector_search_results = handle_vector_search(query_vector, max_results, minimum_similarity_score)
                 # Display the results.
                 st.write("## Results")
                 # Exercise 3 Task 3 TODO #6: Display the results as a table.
-                st.table(vector_search_results.json())
+                #st.table(vector_search_results.json())
+                if vector_search_results.status_code == 200:
+                    data = vector_search_results.json()
+                    st.table(data)
+                else:
+                    print(f"Request failed with status code: {vector_search_results.status_code}")
+                    print(f"Response content: {vector_search_results.text}")
+                
             else:
                 st.warning("Please enter a query.")
-
 
 if __name__ == "__main__":
     main()
