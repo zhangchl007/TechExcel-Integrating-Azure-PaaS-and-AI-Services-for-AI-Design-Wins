@@ -12,6 +12,7 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Embeddings;
+using System.Configuration;
 
 
 // Exercise 3 Task 3 TODO #1: Add the following using directives to the Program.cs file.
@@ -45,9 +46,11 @@ var config = new ConfigurationBuilder()
      // Create a single instance of the CosmosClient to be shared across the application.
      kernelBuilder.Services.AddSingleton<CosmosClient>((_) =>
     {
+
         CosmosClient client = new(
             connectionString: builder.Configuration["CosmosDB:ConnectionString"]!
         );
+        Console.WriteLine("Connection string: " + client.ClientOptions);  // Debugging
         return client;
     });
      return kernelBuilder.Build();
