@@ -48,10 +48,10 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
         # Log out from the Docker registry at the end of a job
         logout: true
-    - name: Create User Secrets File
+    - name: Add User Secrets File
       run: |
         echo "$USER_SECRETS" > $appPath/input.json
-        dotnet user-secrets init
+        dotnet user-secrets init -p $appPath
         cat $appPath/input.json | dotnet user-secrets set
       shell: bash
       env:
