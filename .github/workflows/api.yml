@@ -51,7 +51,7 @@ jobs:
     - name: Add User Secrets File
       run: |
         echo "$USER_SECRETS" > $appPath/input.json
-        dotnet user-secrets init -p $appPath
+        cd $appPath
         cat $appPath/input.json | dotnet user-secrets set
       shell: bash
       env:
