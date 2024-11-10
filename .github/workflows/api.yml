@@ -22,7 +22,14 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0
-    
+    - name: Add User Secrets File
+      run: |
+        echo "$USER_SECRETS" > $appPath/appsettings.Development.json
+        cd $appPath
+        cat appsettings.Development.json | dotnet user-secrets set
+      shell: bash
+      env:
+          USER_SECRETS: ${{ secrets.USER_SECRETS }}
     - name: Restore dependencies
       run: dotnet restore $appPath
     - name: Build
@@ -48,14 +55,6 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
         # Log out from the Docker registry at the end of a job
         logout: true
-    - name: Add User Secrets File
-      run: |
-        echo "$USER_SECRETS" > $appPath/input.json
-        cd $appPath
-        cat input.json | dotnet user-secrets set
-      shell: bash
-      env:
-          USER_SECRETS: ${{ secrets.USER_SECRETS }}
     - name: Docker Build
       run: docker build -t $imageName --build-arg build_version=${{github.run_number}} $appPath
       
