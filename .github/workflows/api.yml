@@ -55,8 +55,8 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
         # Log out from the Docker registry at the end of a job
         logout: true
-    - name: check User Secrets
-      run:  dotnet user-secrets list --project $appPath
+    #- name: check User Secrets
+    #28  run:  dotnet user-secrets list --project $appPath
     - name: Docker Build
       run: docker build -t $imageName --build-arg build_version=${{github.run_number}} $appPath
       
