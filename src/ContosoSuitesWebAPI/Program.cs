@@ -40,7 +40,7 @@ string cosmosDbConnectionString = config["CosmosDB:ConnectionString"];
 if (string.IsNullOrEmpty(cosmosDbConnectionString))
 {
     Console.WriteLine("CosmosDB connection string is not configured correctly.");
-    throw new ArgumentException("CosmosDB connection string is not configured correctly.");
+    return;
 }
 
 // Add services to the container
