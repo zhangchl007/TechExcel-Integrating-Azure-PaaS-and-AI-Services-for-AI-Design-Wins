@@ -24,10 +24,6 @@ builder.Configuration.AddEnvironmentVariables();
 // Add configuration to read from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
-// Add configuration to read from appsettings.Development.json
-
-builder.Configuration.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
-
 // Build the configuration
 var config = builder.Configuration;
 
