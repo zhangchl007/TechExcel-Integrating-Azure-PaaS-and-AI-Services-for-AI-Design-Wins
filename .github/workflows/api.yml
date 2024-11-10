@@ -35,9 +35,9 @@ jobs:
       uses: actions/checkout@v4
     - name: Add User Secrets File
       run: |
-        echo "$USER_SECRETS" > $appPath/appsettings.Development.json
+        echo "$USER_SECRETS" > $appPath/appsettings.prod.json
         cd $appPath
-        cat appsettings.Development.json | dotnet user-secrets set
+        cat appsettings.prod.json | dotnet user-secrets set
       shell: bash
       env:
           USER_SECRETS: ${{ secrets.USER_SECRETS }}

@@ -22,12 +22,8 @@ builder.Configuration.AddUserSecrets<Program>();
 builder.Configuration.AddEnvironmentVariables();
 
 // Add configuration to read from appsettings.json
-if (builder.Environment.IsDevelopment())
-{
-    // Add configuration to read from appsettings.Development.json
-    builder.Configuration.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
-}
-
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddJsonFile("appsettings.prod.json", optional: true, reloadOnChange: true);
 // Build the configuration
 var config = builder.Configuration;
 
